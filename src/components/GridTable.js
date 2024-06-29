@@ -12,43 +12,51 @@ export default function GridTable() {
 
   return (
     <div>
-      <table id="gridTable">
-        <tbody>
-          {gridRows.map((row, index) => {
-            return (
-              <tr key={index} data-index={index}>
-                {row.map((cellValue, index) => {
-                  return (
-                    <td key={index} data-index={index} style={{backgroundColor: getColorForCell(cellValue)}}>
-                      {cellValue}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="fixed inset-0 overflow-scroll flex items-center justify-center bg-black">
+        <table id="gridTable">
+          <tbody>
+            {gridRows.map((row, index) => {
+              return (
+                <tr key={index} data-index={index}>
+                  {row.map((cellValue, index) => {
+                    return (
+                      <td
+                        key={index}
+                        data-index={index}
+                        style={{ backgroundColor: getColorForCell(cellValue) }}
+                      >
+                        {/* {cellValue} */}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
 
-      <button
-        onClick={() => {
-          setRenderCount((prev) => prev + 1);
-        }}
-        className="p-2 mt-3 border rounded shadow "
-      >
-        Render {renderCount}
-      </button>
-
-      <div className="flex gap-2 items-center">
-        <p>Current Batch {batchIndex}</p>
+      <div className="hidden">
         <button
-        className="p-2 mt-3 border rounded shadow "
           onClick={() => {
-            setBatchIndex((prev) => prev + 1);
+            setRenderCount((prev) => prev + 1);
           }}
+          className="p-2 mt-3 border rounded shadow"
         >
-          Increase Batch
+          Render {renderCount}
         </button>
+
+        <div className="flex gap-2 items-center">
+          <p>Current Batch {batchIndex}</p>
+          <button
+            className="p-2 mt-3 border rounded shadow "
+            onClick={() => {
+              setBatchIndex((prev) => prev + 1);
+            }}
+          >
+            Increase Batch
+          </button>
+        </div>
       </div>
     </div>
   );
