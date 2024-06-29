@@ -3,7 +3,7 @@ import { useGrid } from "../context/grid";
 import { convertGridIntoRows } from "../lib/utils";
 
 export default function GridTable() {
-  const [{ gridCols }] = useGrid();
+  const [{ gridCols, renderCount }, {setRenderCount}] = useGrid();
   console.log({ gridCols });
 
   const gridRows = convertGridIntoRows(gridCols);
@@ -24,6 +24,10 @@ export default function GridTable() {
           })}
         </tbody>
       </table>
+
+      <button onClick={()=>{
+        setRenderCount((prev) => prev +1 );
+      }} className="p-3 mt-3 border rounded shadow">Render {renderCount}</button>
     </div>
   );
 }

@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { getPattern } from "../lib/utils";
 
 export const GridContext = createContext(null);
 export const GridDispatchContext = createContext(null);
@@ -6,19 +7,32 @@ export const GridDispatchContext = createContext(null);
 const numCols = 20;
 const numRows = 15;
 
-const initialValue = Array.from({ length: numCols }, (z,index) => Array(numRows).fill(index+1));
-
-
+const initialValue = Array.from({ length: numCols }, (z, index) =>
+  Array(numRows).fill(0)
+);
 
 export function GridProvider({ children }) {
   const [gridCols, setGridCols] = useState(initialValue);
+  const [renderCount, setRenderCount] = useState(1);
+
+  const renderFrameTimeOut = useRef();
+
+
+  useEffect(()=> {
+    const newPattern = getPattern(gridCols);
+    console.log({ newPattern });
+    setGridCols(newPattern);
+    
+  }, [renderCount])
 
   const states = {
     gridCols,
+    renderCount,
   };
 
   const updateStateFunctions = {
     setGridCols,
+    setRenderCount
   };
 
   return (
@@ -33,5 +47,5 @@ export function GridProvider({ children }) {
 export function useGrid() {
   const states = useContext(GridContext);
   const updateStateFunctions = useContext(GridDispatchContext);
-  return [ states, updateStateFunctions ];
+  return [states, updateStateFunctions];
 }
