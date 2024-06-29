@@ -14,25 +14,27 @@ const initialValue = Array.from({ length: numCols }, (z, index) =>
 export function GridProvider({ children }) {
   const [gridCols, setGridCols] = useState(initialValue);
   const [renderCount, setRenderCount] = useState(1);
-
+  const [batchIndex, setBatchIndex] = useState(0); 
+ 
   const renderFrameTimeOut = useRef();
 
 
   useEffect(()=> {
-    const newPattern = getPattern(gridCols);
+    const newPattern = getPattern(gridCols, batchIndex);
     console.log({ newPattern });
     setGridCols(newPattern);
-    
-  }, [renderCount])
+  }, [renderCount]);
 
   const states = {
     gridCols,
     renderCount,
+    batchIndex
   };
 
   const updateStateFunctions = {
     setGridCols,
-    setRenderCount
+    setRenderCount,
+    setBatchIndex
   };
 
   return (

@@ -6,7 +6,7 @@ export function convertGridIntoRows(grid) {
 
   const rows = [];
   for (let i = 0; i < numRows; i++) {
-    rows.push(new Array(numCols).fill(i+1));
+    rows.push(new Array(numCols).fill(i + 1));
   }
 
   for (let col = 0; col < numCols; col++) {
@@ -29,49 +29,49 @@ function areLaneIsClear(col, offset) {
       return false;
     }
   }
-  
+
   return true;
 }
 
-function shiftTheColumn(col){
+function shiftTheColumn(col) {
   const newCol = [...col];
   // push the new element
-  if(newCol[0] > 1){
-    newCol.unshift(newCol[0] - 1);  
-  }else{
+  const realIndex = newCol[0] % 10;
+  if( realIndex > 1) {
+    newCol.unshift(newCol[0] - 1);
+  } else {
     newCol.unshift(0);
   }
 
-  newCol.pop();   // Remove the last element
+  newCol.pop(); // Remove the last element
 
   return newCol;
 }
 
-
-export function getPattern(gridCols){
+export function getPattern(gridCols, batchIndex) {
   const newCols = [];
 
-  for(let i = 0; i < gridCols.length; i++){
+  console.log({ batchIndex });
+
+  for (let i = 0; i < gridCols.length; i++) {
     const col = gridCols[i];
 
     // shift the grid
     const newCol = shiftTheColumn(col);
 
-    console.log({i});
-
-
     const isToIgnite = randomBoolean();
-    if(isToIgnite){
+    if (isToIgnite) {
       // if first 10 elements are empty, then ignite fire
+
       const isReadyToIgnite = areLaneIsClear(col, 10);
-      if(isReadyToIgnite){
-        newCol[0] = 5;
+      if (isReadyToIgnite) {
+        const currentLayer = 10 * batchIndex;
+        newCol[0] = currentLayer + 5;
       }
     }
-    
+
     newCols[i] = newCol;
   }
 
   return newCols;
-
 }
