@@ -11,18 +11,38 @@ const initialValue = Array.from({ length: numCols }, (z, index) =>
   Array(numRows).fill(0)
 );
 
-
 export function GridProvider({ children }) {
   const [gridCols, setGridCols] = useState(initialValue);
   const [renderCount, setRenderCount] = useState(1);
   const [batchIndex, setBatchIndex] = useState(0);
- 
-  // const renderFrameTimeOut = useRef();
 
-  useEffect(()=> {
+  const renderFrameTimeOut = useRef();
+  const batchTimeOut = useRef();
+
+  useEffect(() => {
     const newPattern = getPattern(gridCols, batchIndex);
     setGridCols(newPattern);
   }, [renderCount]);
+
+  useEffect(() => {
+    renderFrameTimeOut.current = setInterval(() => {
+      setRenderCount((prev) => prev +1);
+    }, 100);
+
+    return () => {
+      clearInterval(renderFrameTimeOut)
+    }
+  }, []);
+
+  useEffect(() => {
+    batchTimeOut.current = setInterval(() => {
+      setBatchIndex((prev) => prev +1);
+    }, 3000);
+
+    return () => {
+      clearInterval(batchTimeOut)
+    }
+  }, []);
 
   const states = {
     gridCols,
@@ -33,7 +53,7 @@ export function GridProvider({ children }) {
   const updateStateFunctions = {
     setGridCols,
     setRenderCount,
-    setBatchIndex
+    setBatchIndex,
   };
 
   return (

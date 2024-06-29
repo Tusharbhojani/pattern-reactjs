@@ -22,7 +22,7 @@ export function convertGridIntoRows(grid) {
 
 function randomBoolean() {
   const randomNumber = Math.random();
-  return randomNumber <= 0.35;
+  return randomNumber <= 0.1;
 }
 
 function areLaneIsClear(col, offset) {
@@ -52,8 +52,6 @@ function shiftTheColumn(col) {
 
 export function getPattern(gridCols, batchIndex) {
   const newCols = [];
-
-  console.log({ batchIndex });
 
   for (let i = 0; i < gridCols.length; i++) {
     const col = gridCols[i];
