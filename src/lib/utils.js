@@ -1,3 +1,5 @@
+import { generateShade } from "./color";
+
 export function convertGridIntoRows(grid) {
   if (grid.length === 0) return [];
 
@@ -37,7 +39,7 @@ function shiftTheColumn(col) {
   const newCol = [...col];
   // push the new element
   const realIndex = newCol[0] % 10;
-  if( realIndex > 1) {
+  if (realIndex > 1) {
     newCol.unshift(newCol[0] - 1);
   } else {
     newCol.unshift(0);
@@ -74,4 +76,15 @@ export function getPattern(gridCols, batchIndex) {
   }
 
   return newCols;
+}
+
+export function getColorForCell(number) {
+  if (number === 0) {
+    return "#000000"; // white
+  }
+
+  const batchIndex = Math.floor(number / 10);
+  const shadeIndex = number % 10;
+
+  return generateShade(batchIndex, shadeIndex); //
 }

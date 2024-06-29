@@ -1,16 +1,14 @@
 import React from "react";
 import { useGrid } from "../context/grid";
-import { convertGridIntoRows } from "../lib/utils";
+import { convertGridIntoRows, getColorForCell } from "../lib/utils";
 
 export default function GridTable() {
   const [
     { gridCols, renderCount, batchIndex },
     { setRenderCount, setBatchIndex },
   ] = useGrid();
-  console.log({ gridCols });
 
   const gridRows = convertGridIntoRows(gridCols);
-  console.log({ gridRows });
 
   return (
     <div>
@@ -19,10 +17,10 @@ export default function GridTable() {
           {gridRows.map((row, index) => {
             return (
               <tr key={index} data-index={index}>
-                {row.map((cell, index) => {
+                {row.map((cellValue, index) => {
                   return (
-                    <td key={index} data-index={index}>
-                      {cell}
+                    <td key={index} data-index={index} style={{backgroundColor: getColorForCell(cellValue)}}>
+                      {cellValue}
                     </td>
                   );
                 })}
@@ -51,12 +49,6 @@ export default function GridTable() {
         >
           Increase Batch
         </button>
-        <button 
-        className="p-2 mt-3 border rounded shadow "
-         onClick={() => {
-          setBatchIndex((prev) => prev - 1);
-        }}
-        >Decrease Batch</button>
       </div>
     </div>
   );

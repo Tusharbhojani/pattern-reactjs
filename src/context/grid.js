@@ -11,24 +11,23 @@ const initialValue = Array.from({ length: numCols }, (z, index) =>
   Array(numRows).fill(0)
 );
 
+
 export function GridProvider({ children }) {
   const [gridCols, setGridCols] = useState(initialValue);
   const [renderCount, setRenderCount] = useState(1);
-  const [batchIndex, setBatchIndex] = useState(0); 
+  const [batchIndex, setBatchIndex] = useState(0);
  
-  const renderFrameTimeOut = useRef();
-
+  // const renderFrameTimeOut = useRef();
 
   useEffect(()=> {
     const newPattern = getPattern(gridCols, batchIndex);
-    console.log({ newPattern });
     setGridCols(newPattern);
   }, [renderCount]);
 
   const states = {
     gridCols,
     renderCount,
-    batchIndex
+    batchIndex,
   };
 
   const updateStateFunctions = {
