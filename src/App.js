@@ -1,9 +1,13 @@
-import './App.css';
+import "./App.css";
+import GridTable from "./components/GridTable";
+import { GridProvider } from "./context/grid";
 
 function App() {
   return (
     <div className="App">
-      <h1 className='text-red-500'>hello</h1>
+      <GridProvider>
+        <GridTable />
+      </GridProvider>
     </div>
   );
 }
